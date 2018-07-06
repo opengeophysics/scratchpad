@@ -1,4 +1,5 @@
 import numpy as np
+import properties
 from scipy.constants import mu_0
 
 from SimPEG.Problem import BaseProblem
@@ -136,22 +137,22 @@ class EmpymodProblem(BaseProblem):
 
     @property
     def xdirect(self):
-    """Direct field in the wavenumber domain"""
+        """Direct field in the wavenumber domain"""
         return False
 
     @property
     def ht(self):
-    """FHT (digital linear filter)"""
-    return "fht"
+        """FHT (digital linear filter)"""
+        return "fht"
 
     @property
     def htarg(self):
-    """Default FHT arguments"""
+        """Default FHT arguments"""
         return (empymod.filters.key_201_2009(), None)
 
     @property
     def use_spline(self):
-    """Lagged convolution"""
+        """Lagged convolution"""
         return True
 
     @property
@@ -184,13 +185,13 @@ class EmpymodProblem(BaseProblem):
 
     # Forward Simulation
     def _calc_fm(self, rho):
-    """
-    compute data using empymod. The real and imaginary parts are separated so that
-    we are always working with real values
-    """
+        """
+        compute data using empymod. The real and imaginary parts are separated
+        so that we are always working with real values
+        """
 
         # Calculate result
-        # out = empymod.bipole(res=rho, **self.fixed_params, **self.empymod_settings)
+        out = empymod.bipole(res=rho, **self.fixed_params, **self.empymod_settings)
         # Ensure dimensionality, because empymod.dipole squeezes the output
         if len(self.freq) == 1:
             out = out[None, :]
